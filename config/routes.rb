@@ -26,5 +26,6 @@ Rails.application.routes.draw do
 
   # get 'pages/users'
   # get 'pages/admin'     
-  
+  delete '/users/sign_out', to: 'users/sessions#destroy'
+  delete '/admin/sign_out', to: 'admin/sessions#destroy'
 end
