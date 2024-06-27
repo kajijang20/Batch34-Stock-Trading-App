@@ -9,11 +9,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
+  
   get '/' => 'pages#home'
-
-  get '/admin', to: 'admins#index', as: :admin_root
-  get '/users', to: 'users#index', as: :users_root
-  #get '/sign_in', to: 'pages#startup', as: :sign_in
   # get 'pages/orders'
   # get 'pages/stock'
   # get 'pages/trader_stocks'
