@@ -64,22 +64,16 @@ class PagesController < ApplicationController
       @stock.update_stock_quantity order_quantity
       # debugger
       
-      redirect_to orders_path, notice: "Order was successful."
+      # redirect_to orders_path, notice: "Order was successful."
     else
-      redirect_to new_order_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
+      # redirect_to new_order_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
     end
   end
 
   def edit
   end
 
-  def update
-  end
-
-  def destroy
-  end
-
-  private
+  def updateirb
 
   def set_stock
     # @stock = Stock.where(symbol: params[:symbol])
