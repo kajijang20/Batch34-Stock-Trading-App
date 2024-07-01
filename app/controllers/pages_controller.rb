@@ -2,6 +2,25 @@ class PagesController < ApplicationController
   def home
   end
 
+  def orders
+    authorize Order
+  end
+
+  def create
+    @order = Order.new(order_params)
+    authorize @order
+  end
+
+  def update
+    @order = Order.find(params[:id])
+    authorize @order
+  end
+
+  def destroy
+    @order = Order.find(params[:id])
+    authorize @order
+  end
+
   # def orders
   #   before_action :set_stock, only: %i[ index new create edit destroy]
   # before_action :set_order, only: %i[ show edit update destroy ]
