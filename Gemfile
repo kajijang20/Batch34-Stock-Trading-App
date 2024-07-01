@@ -73,4 +73,4 @@ gem "devise", "~> 4.9"
 
 gem "sqlite3", "~> 1.4"
 
-gem 'alphavantage'
+gem 'alphavantagerb'
