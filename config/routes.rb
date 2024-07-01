@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   
   get '/' => 'pages#home'
+  get "/orders" => "pages#orders"
   # get 'pages/orders'
   # get 'pages/stock'
   # get 'pages/trader_stocks'
