@@ -2,3 +2,12 @@
 <p>Find me in app/views/pages/home.html.erb</p>
 
 <%= link_to "orders", orders_path%>
+
+<%= link_to "Update Stocks", update_stocks_path %>
+
+<% @Stocks.each do |stock| %>
+    <h1><%= stock.ticker %></h1>
+    <p>High: <%= stock.high %></p>
+    <p>Low: <%= stock.low %></p>
+    <p>Volume: <%= stock.volume %></p>
+<% end %>

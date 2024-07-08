@@ -71,6 +71,10 @@ end
 
 gem "devise", "~> 4.9"
 
-gem "alphavantagerb"
+gem "alphavantage"
 
 gem "pundit"
+
+gem 'dotenv', groups: [:development, :test]
+
+gem 'rolify'

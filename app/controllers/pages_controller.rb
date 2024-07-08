@@ -1,34 +1,36 @@
 class PagesController < ApplicationController
+  before_action :set_stock, only: %i[ index new create edit destroy]
+  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+
+
   def home
   end
 
-  def orders
+  # def orders
 
-    before_action :set_stock, only: %i[ index new create edit destroy]
-  before_action :set_order, only: %i[ show edit update destroy ]
-  #before_action :authenticate_user!
+  #   authorize Order
+  # end
 
-    authorize Order
-  end
+  # def create
+  #   @order = Order.new(order_params)
+  #   authorize @order
+  # end
 
-  def create
-    @order = Order.new(order_params)
-    authorize @order
-  end
+  # def update
+  #   @order = Order.find(params[:id])
+  #   authorize @order
+  # end
 
-  def update
-    @order = Order.find(params[:id])
-    authorize @order
-  end
-
-  def destroy
-    @order = Order.find(params[:id])
-    authorize @order
-  end
+  # def destroy
+  #   @order = Order.find(params[:id])
+  #   authorize @order
+  # end
   
   def index
     @stocks = Stock.all
     @orders = Order.all
+    @greeting = 'hello_World'
   end
 
   def new
@@ -83,9 +85,9 @@ class PagesController < ApplicationController
       @stock.update_stock_quantity order_quantity
       # debugger
       
-      # redirect_to orders_path, notice: "Order was successful."
+      redirect_to home_path, notice: "Order was successful."
     else
-      # redirect_to new_order_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
+      redirect_to home_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
     end
   end
 
@@ -108,31 +110,41 @@ class PagesController < ApplicationController
   end
 
   def transact_order
-    
   end
     
-  end
  
   def stock
     @stocks = Stock.all
-    ten_most_active_stocks = @client.stock_market_list(:mostactive, listLimit: 100)
-    ten_most_active_symbols = ten_most_active_stocks.map(&:symbol)
-    ten_most_active_symbols.each do |symbol|
-      @stock = @stocks.find_by(symbol: symbol)
-      if !(@stocks.count > 0) || !@stocks.map(&:symbol).any?(symbol)
-        @stock = @stocks.create(
-          :company_name => @client.company(symbol).company_name,
-          :symbol => symbol,
-          :logo => @client.logo(symbol).url,
-          :price => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.latest_price,
-          :quantity => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.alphavantagerb_volume,
-          :change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change,
-          :percent_change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change_percent_s
-        )
-      else
-        @stock.update_existing_stock_price
-      end
+    @stocks =Stock.where.not(high: nil)
+    # ten_most_active_stocks = @client.stock_market_list(:mostactive, listLimit: 100)
+    # ten_most_active_symbols = ten_most_active_stocks.map(&:symbol)
+    # ten_most_active_symbols.each do |symbol|
+    #   @stock = @stocks.find_by(symbol: symbol)
+    #   if !(@stocks.count > 0) || !@stocks.map(&:symbol).any?(symbol)
+    #     @stock = @stocks.create(
+    #       :company_name => @client.company(symbol).company_name,
+    #       :symbol => symbol,
+    #       :logo => @client.logo(symbol).url,
+    #       :price => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.latest_price,
+    #       :quantity => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.alphavantagerb_volume,
+    #       :change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change,
+    #       :percent_change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change_percent_s
+    #     )
+    #   else
+    #     @stock.update_existing_stock_price
+    #   end
+    # end
+  end
+
+  def update_stocks
+    @stocks = stock.all
+    @stocks.each do |stock|
+      Stocks::Import.new(self).call
     end
+
+    redirect_to home_path 
+  rescue StandardError => e
+    redirect_to home_path
   end
 
   def show
@@ -153,6 +165,7 @@ class PagesController < ApplicationController
   def destroy
   end
 
+
       
     private
 
@@ -170,7 +183,7 @@ class PagesController < ApplicationController
       def stock_params
         params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
       end
-  end
+  
 
   def trader_stocks
     def index
