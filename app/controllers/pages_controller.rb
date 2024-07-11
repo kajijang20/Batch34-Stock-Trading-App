@@ -1,5 +1,8 @@
 class PagesController < ApplicationController
   def home
+    @stocks = Stock.all
+    @orders = Order.all
+    @greeting = 'hello_World'
   end
 
   def orders
@@ -58,21 +61,20 @@ class PagesController < ApplicationController
     end
   end
 
-  def updateirb
-    def set_stock
-      @stock = Stock.find_by(symbol: params[:symbol])
-    end
 
-    def set_order
-      @order = Order.find(params[:id])
-    end
+  def set_stock
+    @stock = Stock.find_by(symbol: params[:symbol])
+  end
 
-    def order_params
-      params.require(:order).permit(:order_type, :price, :quantity, :symbol, :user_id)
-    end
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
-    def transact_order
-    end
+  def order_params
+    params.require(:order).permit(:order_type, :price, :quantity, :symbol, :user_id)
+  end
+
+  def transact_order
   end
 
   def stock
@@ -115,36 +117,10 @@ class PagesController < ApplicationController
     end
 
     def set_client
-      @client = Alphavantagerb::Api::Client.new(
-        key: EXWYIHEZCLHYQ
-      )
+      @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
     end
 
     def stock_params
       params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
-    end
-
-    def trader_stocks
-
-      def index
-      end
-
-      def show
-      end
-
-      def new
-      end
-
-      def create
-      end
-
-      def edit
-      end
-
-      def update
-      end
-
-      def destroy
-      end
     end
 end

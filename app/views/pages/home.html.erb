@@ -6,9 +6,13 @@
 <%= link_to "User List", userlist_path %>
 <%= link_to "Transactions", transactions_path %>
 
-<% @Stocks.each do |stock| %>
-    <h1><%= stock.ticker %></h1>
-    <p>High: <%= stock.high %></p>
-    <p>Low: <%= stock.low %></p>
-    <p>Volume: <%= stock.volume %></p>
+<%# if stocks.present? %>
+    <% @Stocks.each do |stock| %>
+        <h1><%= stock.ticker %></h1>
+        <p>High: <%= stock.high %></p>
+        <p>Low: <%= stock.low %></p>
+        <p>Volume: <%= stock.volume %></p>
+    <% end %>
+<%# else 
+  <p>No stocks found.</p>
 <% end %>

@@ -41,5 +41,5 @@ class Order < ApplicationRecord
       return false if order_type == "BUY" && (user.balance < (price * quantity))
       return true
     end
-  end
+
 end

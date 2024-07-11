@@ -9,8 +9,10 @@ class Stock < ApplicationRecord
   
     def update_existing_stock_price
       update(price: price)
+    end
   
     def import_update
       Stocks::Import.new(self).call if ticker.present?
     end
 end
+
