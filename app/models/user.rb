@@ -5,8 +5,13 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         has_many :trader_stocks
-         has_many :orders
+  has_many :trader_stocks
+  has_many :orders
+  rolify
+
+  def has_role?(role)
+    self.roles.any? { |r| r.name.underscore.to_sym == role }
+  end
 
   enum :status, { pending: 0, approved: 1 }, default: :pending
 
@@ -20,6 +25,7 @@ class User < ApplicationRecord
   def send_welcome_email
     WelcomeMailer.with(email: email).welcome_email.deliver_now
   end
+
 end
 
 
