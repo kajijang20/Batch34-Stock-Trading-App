@@ -94,7 +94,6 @@ class PagesController < ApplicationController
   def edit
   end
 
-  def updateirb
 
   def set_stock
     # @stock = Stock.where(symbol: params[:symbol])
@@ -116,24 +115,6 @@ class PagesController < ApplicationController
   def stock
     @stocks = Stock.all
     @stocks =Stock.where.not(high: nil)
-    # ten_most_active_stocks = @client.stock_market_list(:mostactive, listLimit: 100)
-    # ten_most_active_symbols = ten_most_active_stocks.map(&:symbol)
-    # ten_most_active_symbols.each do |symbol|
-    #   @stock = @stocks.find_by(symbol: symbol)
-    #   if !(@stocks.count > 0) || !@stocks.map(&:symbol).any?(symbol)
-    #     @stock = @stocks.create(
-    #       :company_name => @client.company(symbol).company_name,
-    #       :symbol => symbol,
-    #       :logo => @client.logo(symbol).url,
-    #       :price => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.latest_price,
-    #       :quantity => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.alphavantagerb_volume,
-    #       :change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change,
-    #       :percent_change => ten_most_active_stocks.select{|item| item.symbol == symbol}.last.change_percent_s
-    #     )
-    #   else
-    #     @stock.update_existing_stock_price
-    #   end
-    # end
   end
 
   def update_stocks
@@ -174,8 +155,8 @@ class PagesController < ApplicationController
       end
 
       def set_client
-        @client = Alphavantagerb::Api::Client.new(
-          key: EXWYIHEZCLHYQ
+        @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY']
+      
         )
       end
     
@@ -185,27 +166,4 @@ class PagesController < ApplicationController
       end
   
 
-  def trader_stocks
-    def index
-    end
-  
-    def show
-    end
-  
-    def new
-    end
-  
-    def create
-    end
-  
-    def edit
-    end
-  
-    def update
-    end
-  
-    def destroy
-    end
-    
-  end
 end

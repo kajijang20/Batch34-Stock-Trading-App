@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
-  # devise_for :users, controllers: {
-  #   sessions: 'users/sessions'
-  #   registrations: 'user/registrations'
-  # }
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'user/registrations'
+  }
 
   
-  # get '/' => 'pages#home'
-  # get "/orders" => "pages#orders"
-  # get 'pages/orders'
-  # get 'pages/stock'
-  # get 'pages/trader_stocks'
+  get '/' => 'pages#home'
+  get "/orders" => "pages#orders"
+  get 'pages/orders'
+  get 'pages/stock'
+  get 'pages/trader_stocks'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
