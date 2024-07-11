@@ -1,4 +1,9 @@
 class PagesController < ApplicationController
+  before_action :set_stock, only: %i[ index new create edit destroy]
+  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+
+
   def home
     @stocks = Stock.all
     @orders = Order.all
@@ -52,15 +57,15 @@ class PagesController < ApplicationController
           @trader_stock.destroy
         end
       end 
-      ccurrent_user.recalculate_balance order_price
+
+      current_user.recalculate_balance order_price
       @stock.update_stock_quantity order_quantity
       # debugger
-      redirect_to home_path, notice: "Order was successful."
+      redirect_to root_path, notice: "Order was successful."
     else
-      redirect_to home_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
+      redirect_to root_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
     end
   end
-
 
   def set_stock
     @stock = Stock.find_by(symbol: params[:symbol])
@@ -95,6 +100,9 @@ class PagesController < ApplicationController
   def show
   end
 
+  def show
+  end
+
   def new
   end
 
@@ -108,19 +116,19 @@ class PagesController < ApplicationController
   end
 
   def destroy
-  end   
+  end
 
-  private
+    private
 
-    def set_stock
-      @stock = Stock.find(params[:id])
-    end
+      def set_stock
+        @stock = Stock.find(params[:id])
+      end
 
-    def set_client
-      @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
-    end
+      def set_client
+        @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
+      end
 
-    def stock_params
-      params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
-    end
+      def stock_params
+        params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
+      end
 end

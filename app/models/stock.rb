@@ -15,4 +15,3 @@ class Stock < ApplicationRecord
       Stocks::Import.new(self).call if ticker.present?
     end
 end
-

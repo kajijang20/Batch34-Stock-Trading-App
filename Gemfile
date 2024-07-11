@@ -76,3 +76,4 @@ gem "alphavantagerb"
 gem "rolify"
 
 gem "dotenv", groups: [:development, :test]
+
