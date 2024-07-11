@@ -253,9 +253,9 @@ class PagesController < ApplicationController
     @stocks.each do |stock|
       Stocks::Import.new(self).call
     end
-    redirect_to home_path 
+    redirect_to root_path 
   rescue StandardError => e
-    redirect_to home_path
+    redirect_to root_path
   end
 
   def show

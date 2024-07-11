@@ -1,18 +1,24 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div id="Dashboard">
+    <div id="Header">
+        <h1>Pages#home</h1>
+        <p>Find me in app/views/pages/home.html.erb</p>
 
-<%= link_to "Orders", orders_path %>
-<%= link_to "Update Stocks", updated_stocks_path %>
-<%= link_to "User List", userlist_path %>
-<%= link_to "Transactions", transactions_path %>
-
-<%# if stocks.present? %>
-    <% @Stocks.each do |stock| %>
-        <h1><%= stock.ticker %></h1>
-        <p>High: <%= stock.high %></p>
-        <p>Low: <%= stock.low %></p>
-        <p>Volume: <%= stock.volume %></p>
-    <% end %>
-<%# else 
-  <p>No stocks found.</p>
-<% end %>
+        <%= link_to "Orders", orders_path %>
+        <%= link_to "Update Stocks", updated_stocks_path %>
+        <%= link_to "User List", userlist_path %>
+        <%= link_to "Transactions", transactions_path %>
+        <%= link_to "Sign-in", new_user_session_path %>
+    </div>
+    <div id="Stocks">
+        <% if @stocks.present? %>
+            <% @Stocks.each do |stock| %>
+                <h1><%= stock.ticker %></h1>
+                <p>High: <%= stock.high %></p>
+                <p>Low: <%= stock.low %></p>
+                <p>Volume: <%= stock.volume %></p>
+            <% end %>
+        <% else %>
+            <p>No stocks found.</p>
+        <% end %>
+    </div>
+</div>

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   
   get '/' => 'pages#home'
   get '/orders' => 'pages#orders'
-  get '/updatedstock', to: 'pages#updated_stocks', as: 'updated_stocks'
+  get '/update_stock', to: 'pages#update_stocks', as: 'updated_stocks'
   get '/userlist', to: 'users#userlist'
   get '/transactions', to: 'users#transactions'
   
