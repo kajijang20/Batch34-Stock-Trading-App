@@ -10,9 +10,9 @@
 
 require 'csv'
 
-CSV.foreach('db/seeds/company_name.csv'), headers: true) do |row|
+CSV.foreach('db/seeds/company_name.csv', headers: true) do |row|
     next unless !row['name'].nil? && row['assetType'] =='Stock' && row
-    ['Status' == 'Active'
+    ['Status'] == 'Active'
 
     stock.create(
         ticker: row['symbol'],
