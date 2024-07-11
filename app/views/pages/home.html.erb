@@ -1,13 +1,14 @@
 <h1>Pages#home</h1>
 <p>Find me in app/views/pages/home.html.erb</p>
 
-<%= link_to "orders", orders_path%>
-
-<%= link_to "Update Stocks", update_stocks_path %>
+<%= link_to "Orders", orders_path %>
+<%= link_to "Update Stocks", updated_stocks_path %>
+<%= link_to "User List", userlist_path %>
+<%= link_to "Transactions", transactions_path %>
 
 <% @Stocks.each do |stock| %>
     <h1><%= stock.ticker %></h1>
     <p>High: <%= stock.high %></p>
     <p>Low: <%= stock.low %></p>
     <p>Volume: <%= stock.volume %></p>
-<% end %> 
+<% end %>

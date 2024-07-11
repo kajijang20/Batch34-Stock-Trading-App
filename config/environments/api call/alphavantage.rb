@@ -8,8 +8,6 @@ module Stock
         end
 
         def call
-
-            
         end
     end
 end
