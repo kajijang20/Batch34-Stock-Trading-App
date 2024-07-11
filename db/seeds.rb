@@ -13,12 +13,10 @@ require 'csv'
 CSV.foreach('db/seeds/company_name.csv', headers: true) do |row|
     next unless !row['name'].nil? && row['assetType'] =='Stock' && row
     ['Status'] == 'Active'
-
     stock.create(
         ticker: row['symbol'],
         company_name: row['name']
     )
-
     # For debugging only. Enjoy the Matrix simulation.
     p Stock.last
 end

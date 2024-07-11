@@ -9,3 +9,4 @@ class TraderStock < ApplicationRecord
       update(quantity: quantity + order_quantity)
     end
 end
+

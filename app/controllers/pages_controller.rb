@@ -63,7 +63,6 @@ class PagesController < ApplicationController
     end
   end
 
-
   def set_stock
     @stock = Stock.find_by(symbol: params[:symbol])
   end
@@ -110,19 +109,19 @@ class PagesController < ApplicationController
   end
 
   def destroy
-  end   
+  end
 
-  private
+    private
 
-    def set_stock
-      @stock = Stock.find(params[:id])
-    end
+      def set_stock
+        @stock = Stock.find(params[:id])
+      end
 
     def set_client
       @client = AlphavantageService.new(ENV['ALPHAVANTAGE_API_KEY'])
     end
 
-    def stock_params
-      params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
-    end
+      def stock_params
+        params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
+      end
 end
