@@ -1,5 +1,14 @@
-#require 'alphavantagerb'
+# module Stock
+#     class import
+#         attr_reader :client
 
-#Alphavantage.configure do |config|
-#    config.api_key = ENV['ALPHAVANTAGE_API_KEY']
-#end
+#         def initialize
+#             @client = Alphavantage::Timeseries.new key: ENV['ALPHAVANTAGE_API_KEY']
+#         end
+
+#         def call
+
+            
+#         end
+#     end
+# end
