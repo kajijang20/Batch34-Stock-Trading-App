@@ -15,7 +15,7 @@ local:
 #   bucket: your_own_bucket-<%= Rails.env %>
 
 # Remember not to checkin your GCS keyfile to a repository
-# google:
+# google:sudo apt-get install postgresql
 #   service: GCS
 #   project: your_project
 #   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
