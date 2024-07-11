@@ -23,5 +23,9 @@ module StockTradingApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.to_prepare do
+      DeviseController.prepend_before_action :set_minimum_password_length
+    end
   end
 end

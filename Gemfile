@@ -73,4 +73,6 @@ gem "devise", "~> 4.9"
 
 gem "alphavantage"
 
-gem "pundit"
+gem "rolify"
+
+gem "dotenv", groups: [:development, :test]

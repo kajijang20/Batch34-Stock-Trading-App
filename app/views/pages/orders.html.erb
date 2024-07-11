@@ -1,2 +1,18 @@
 <h1>Pages#orders</h1>
 <p>Find me in app/views/pages/orders.html.erb</p>
+
+<h2>Stocks:</h2>
+
+<ul>
+  <% @stocks.each do |stock| %>
+    <li><%= stock.symbol %> - <%= stock.company_name %></li>
+  <% end %>
+</ul>
+
+
+<h2>Orders:</h2>
+<ul>
+  <% @orders.each do |order| %>
+    <li><%= order.symbol %> - <%= order.price %></li>
+  <% end %>
+</ul>
