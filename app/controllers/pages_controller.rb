@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_action :set_client, only: [:update_stocks]
+
   def home
     @stocks = Stock.all
     @orders = Order.all
@@ -52,12 +54,12 @@ class PagesController < ApplicationController
           @trader_stock.destroy
         end
       end 
-      ccurrent_user.recalculate_balance order_price
+      current_user.recalculate_balance order_price
       @stock.update_stock_quantity order_quantity
       # debugger
-      redirect_to home_path, notice: "Order was successful."
+      redirect_to root_path, notice: "Order was successful."
     else
-      redirect_to home_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
+      redirect_to root_path(user_id: current_user.id, symbol: @stock.symbol), alert: "Order was unsuccessful."
     end
   end
 
@@ -83,13 +85,13 @@ class PagesController < ApplicationController
   end
 
   def update_stocks
-    @stocks = stock.all
     @stocks.each do |stock|
-      Stocks::Import.new(self).call
+      stock_data = @client.fetch_stock_data(stock.symbol)
+      # Process stock_data as needed and update Stock attributes
     end
-    redirect_to root_path 
+    redirect_to root_path, notice: "Stocks updated successfully."
   rescue StandardError => e
-    redirect_to root_path
+    redirect_to root_path, alert: "Failed to update stocks: #{e.message}"
   end
 
   def show
@@ -117,7 +119,7 @@ class PagesController < ApplicationController
     end
 
     def set_client
-      @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
+      @client = AlphavantageService.new(ENV['ALPHAVANTAGE_API_KEY'])
     end
 
     def stock_params
