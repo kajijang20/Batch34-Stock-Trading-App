@@ -1,39 +1,12 @@
-class PagesController < ApplicationController
-<<<<<<< HEAD
-  before_action :set_stock, only: %i[ index new create edit destroy]
-  before_action :set_order, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
 
-=======
+class PagesController < ApplicationController
   before_action :set_client, only: [:update_stocks]
->>>>>>> ed74414 (added service)
 
   def home
     @stocks = Stock.all
     @orders = Order.all
     @greeting = 'hello_World'
   end
-
-<<<<<<< HEAD
-  # def orders
-
-  #   authorize Order
-  # end
-
-  # def create
-  #   @order = Order.new(order_params)
-  #   authorize @order
-  # end
-
-  # def update
-  #   @order = Order.find(params[:id])
-  #   authorize @order
-  # end
-
-  # def destroy
-  #   @order = Order.find(params[:id])
-  #   authorize @order
-  # end
   
   def index
     @stocks = Stock.all
@@ -50,20 +23,9 @@ class PagesController < ApplicationController
     @stock = Stock.find_by(symbol: order_params[:symbol])
     @trader_stocks = TraderStock.all.where(user_id: current_user.id)
     @order = Order.new(order_params)
-    # @order.user_balance_sufficient?
-    
-    # @order.check_if_user_can_sell_trader_stocks #@trader_stocks
-
-    # @order.recalculate_user_balance
-    # debugger
-    # if order_params[:order_type] == "BUY"
-    # else
-
-    # end
     # debugger
 
     if @order.save
-      # @order.order_type == "BUY" ? price = -@order.price : price = @order.price
       if @order.order_type == "BUY"
         order_price = -@order.price
         order_quantity = -@order.quantity
@@ -102,7 +64,6 @@ class PagesController < ApplicationController
   def edit
   end
 
-
   def set_stock
     # @stock = Stock.where(symbol: params[:symbol])
     @stock = Stock.find_by(symbol: params[:symbol])
@@ -118,7 +79,6 @@ class PagesController < ApplicationController
 
   def transact_order
   end
-    
  
   def stock
     @stocks = Stock.all
@@ -132,8 +92,8 @@ class PagesController < ApplicationController
     end
 
     redirect_to home_path 
-  rescue StandardError => e
-    redirect_to home_path
+    rescue StandardError => e
+      redirect_to home_path
   end
 
   def show
@@ -153,8 +113,6 @@ class PagesController < ApplicationController
 
   def destroy
   end
-
-
       
     private
 
@@ -292,29 +250,5 @@ class PagesController < ApplicationController
 
     def stock_params
       params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
-    end
-
-    def trader_stocks
-
-      def index
-      end
-
-      def show
-      end
-
-      def new
-      end
-
-      def create
-      end
-
-      def edit
-      end
-
-      def update
-      end
-
-      def destroy
-      end
     end
 end
