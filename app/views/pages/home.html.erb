@@ -9,6 +9,7 @@
         <%= link_to "Transactions", transactions_path %>
         <%= link_to "Sign-in", new_user_session_path %>
     </div>
+    
     <div id="Stocks">
         <% if @stocks.present? %>
             <% @Stocks.each do |stock| %>

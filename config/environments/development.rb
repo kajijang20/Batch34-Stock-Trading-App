@@ -76,4 +76,13 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }  
   # add devise by anstley
+
+  # config/application.rb or config/environments/development.rb
+  config.before_configuration do
+    env_file = File.join(Rails.root, 'config', 'application.yml')
+    YAML.safe_load(File.open(env_file)).each do |key, value|
+      ENV[key.to_s] = value
+    end if File.exist?(env_file)
+  end
+
 end

@@ -1,8 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_stock, only: %i[ index new create edit destroy]
-  before_action :set_order, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
-
+  before_action :set_client, only: [:update_stocks]
 
   def home
     @stocks = Stock.all
@@ -57,7 +54,6 @@ class PagesController < ApplicationController
           @trader_stock.destroy
         end
       end 
-
       current_user.recalculate_balance order_price
       @stock.update_stock_quantity order_quantity
       # debugger
@@ -88,16 +84,13 @@ class PagesController < ApplicationController
   end
 
   def update_stocks
-    @stocks = stock.all
     @stocks.each do |stock|
-      Stocks::Import.new(self).call
+      stock_data = @client.fetch_stock_data(stock.symbol)
+      # Process stock_data as needed and update Stock attributes
     end
-    redirect_to root_path 
+    redirect_to root_path, notice: "Stocks updated successfully."
   rescue StandardError => e
-    redirect_to root_path
-  end
-
-  def show
+    redirect_to root_path, alert: "Failed to update stocks: #{e.message}"
   end
 
   def show
@@ -124,9 +117,9 @@ class PagesController < ApplicationController
         @stock = Stock.find(params[:id])
       end
 
-      def set_client
-        @client = Alphavantage::Api::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
-      end
+    def set_client
+      @client = AlphavantageService.new(ENV['ALPHAVANTAGE_API_KEY'])
+    end
 
       def stock_params
         params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
