@@ -8,18 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'csv'
-
-CSV.foreach('db/seeds/company_name.csv', headers: true) do |row|
-    next unless !row['name'].nil? && row['assetType'] =='Stock' && row
-    ['Status'] == 'Active'
-    stock.create(
-        ticker: row['symbol'],
-        company_name: row['name']
-    )
-    # For debugging only. Enjoy the Matrix simulation.
-    p Stock.last
-end
 
 # Create users with default roles
 admin_user = User.find_or_create_by(email: 'admin@example.com') do |user|
@@ -31,3 +19,20 @@ trader_user = User.find_or_create_by(email: 'trader@example.com') do |user|
     user.password = 'password'  # Replace 'password' with the actual password
 end
 trader_user.add_role(:trader)
+
+
+require 'csv'
+
+# Adjust the path to match your actual CSV file location
+csv_file = Rails.root.join('db', 'seeds', 'company_list.csv')
+
+CSV.foreach(csv_file, headers: true) do |row|
+  next unless row['name'].present? && row['assetType'] == 'Stock' && row['Status'] == 'Active'
+
+  Stock.create(
+    ticker: row['symbol'],
+    company_name: row['name']
+    # Add other attributes as needed
+  )
+end
+

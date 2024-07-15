@@ -23,7 +23,8 @@ class User < ApplicationRecord
   private
 
   def send_welcome_email
-    WelcomeMailer.with(email: email).welcome_email.deliver_now
+    # You can replace this with your actual implementation to send the email
+    UserMailer.welcome_email(self).deliver_now
   end
 
 end

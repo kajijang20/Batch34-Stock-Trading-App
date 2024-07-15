@@ -78,15 +78,23 @@ class PagesController < ApplicationController
   def transact_order
   end
 
-  def stock
-    @stocks = Stock.all
-    @stocks =Stock.where.not(high: nil)
+  def index
+    @stocks = Stock.where.not(high: nil)
   end
 
   def update_stocks
+    @stocks = Stock.all
     @stocks.each do |stock|
       stock_data = @client.fetch_stock_data(stock.symbol)
-      # Process stock_data as needed and update Stock attributes
+      if stock_data
+        stock.update(
+          open: stock_data['open'],
+          high: stock_data['high'],
+          low: stock_data['low'],
+          close: stock_data['close'],
+          volume: stock_data['volume']
+        )
+      end
     end
     redirect_to root_path, notice: "Stocks updated successfully."
   rescue StandardError => e
@@ -97,31 +105,45 @@ class PagesController < ApplicationController
   end
 
   def new
+    @stock = Stock.new
   end
 
   def create
+    @stock = Stock.new(stock_params)
+    if @stock.save
+      redirect_to @stock, notice: 'Stock was successfully created.'
+    else
+      render :new
+    end
   end
 
   def edit
   end
 
   def update
+    if @stock.update(stock_params)
+      redirect_to @stock, notice: 'Stock was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
+    @stock.destroy
+    redirect_to stocks_url, notice: 'Stock was successfully destroyed.'
   end
 
-    private
+  private
 
-      def set_stock
-        @stock = Stock.find(params[:id])
-      end
+  def set_stock
+    @stock = Stock.find(params[:id])
+  end
 
-    def set_client
-      @client = AlphavantageService.new(ENV['ALPHAVANTAGE_API_KEY'])
-    end
+  def set_client
+    @client ||= AlphavantageService.new(ENV['ALPHAVANTAGE_API_KEY'])
+  end
 
-      def stock_params
-        params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
-      end
+  def stock_params
+    params.require(:stock).permit(:company_name, :symbol, :logo, :price, :quantity)
+  end
 end

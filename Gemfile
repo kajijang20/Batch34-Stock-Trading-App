@@ -77,3 +77,5 @@ gem "rolify"
 
 gem "dotenv", groups: [:development, :test]
 
+gem "tailwindcss-rails", "~> 2.6"
+
