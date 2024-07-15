@@ -4,8 +4,12 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  root 'pages#home'
   
   get '/' => 'pages#home'
+  get '/search', to: 'pages#search'
+  
   get '/orders' => 'pages#orders'
   get '/update_stock', to: 'pages#update_stocks', as: 'updated_stocks'
   get '/userlist', to: 'users#userlist'

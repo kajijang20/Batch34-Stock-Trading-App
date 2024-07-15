@@ -2,9 +2,19 @@ class PagesController < ApplicationController
   before_action :set_client, only: [:update_stocks]
 
   def home
-    @stocks = Stock.all
+    if params[:search]
+      @stocks = Stock.where('company_name LIKE ?', "%#{params[:search]}%")
+    else
+      @stocks = Stock.order('RANDOM()').limit(5)
+    end
     @orders = Order.all
     @greeting = 'hello_World'
+  end
+
+  def search
+    query = params[:query]
+    @results = Stock.where('company_name LIKE ?', "%#{query}%").limit(10)  # Adjust the limit as needed
+    render json: @results
   end
 
   def orders

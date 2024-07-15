@@ -1,16 +1,28 @@
 <div id="Dashboard">
-    <div id="Header">
-        <h1>Pages#home</h1>
-        <p>Find me in app/views/pages/home.html.erb</p>
-
-        <%= link_to "Orders", orders_path %>
-        <%= link_to "Update Stocks", updated_stocks_path %>
-        <%= link_to "User List", userlist_path %>
-        <%= link_to "Transactions", transactions_path %>
-        <%= link_to "Sign-in", new_user_session_path %>
+  <div id="Header">
+    <div class="Header-logo">
+      <%= image_tag("logo.png", alt: "Logo", class: "logo") %>
+      <h1> Dashboard </h1>
     </div>
-    
-    <table>
+    <div class="Header-routes">
+      <%= link_to "Orders", orders_path %>
+      <%= link_to "Update Stocks", updated_stocks_path %>
+      <%= link_to "User List", userlist_path %>
+      <%= link_to "Transactions", transactions_path %>
+      <%= link_to "Sign-in", new_user_session_path %>
+    </div>
+  </div>
+
+  <div id="Dashboard-search-bar">
+    <%= form_tag(root_path, method: :get, id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input" %>
+      <%= submit_tag "Search", id: "search-submit" %>
+    <% end %>
+    <div id="Dashboard-search-results" class="search-results"></div>
+  </div>
+  
+  <div id="Dashboard-stocks">
+  <table>
     <thead>
       <tr>
         <th>Company Name</th>
@@ -33,8 +45,8 @@
           <td><%= stock.close %></td>
           <td><%= stock.volume %></td>
           <td><%= link_to 'Show', stock %></td>
-          <td><%= link_to 'Edit', edit_stock_path(stock) %></td>
-          <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%# <td><%= link_to 'Edit', edit_stock_path(stock) ></td>
+          <%# <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } ></td> %>
         </tr>
       <% end %>
     </tbody>

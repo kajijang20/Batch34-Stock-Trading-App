@@ -8,21 +8,27 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
 # Create users with default roles
-admin_user = User.find_or_create_by(email: 'admin@example.com') do |user|
-    user.password = 'admin'  # Replace 'password' with the actual password
-end
+#debugger
+admin_user = User.create!(
+  email: 'admin_trisha@gmail.com',
+  password: 'adminpassword',
+  password_confirmation: 'adminpassword',
+)
 admin_user.add_role(:admin)
+admin_user.add_role(:approved_trader)
   
-trader_user = User.find_or_create_by(email: 'trader@example.com') do |user|
-    user.password = 'password'  # Replace 'password' with the actual password
-end
+trader_user = User.create!(
+  email: 'user1@gmail.com',
+  password: 'password',
+  password_confirmation: 'password',
+)
 trader_user.add_role(:trader)
+trader_user.add_role(:approved_trader)
+### NOT WORKING ###
 
 
 require 'csv'
-
 # Adjust the path to match your actual CSV file location
 csv_file = Rails.root.join('db', 'seeds', 'company_list.csv')
 Stock.destroy_all
@@ -33,6 +39,5 @@ CSV.foreach(csv_file, headers: true) do |row|
     symbol: row['symbol'],
     company_name: row['name']
   )
-  #puts "stock created: #{Stock.last.symbol}"
 end
-puts "stocks created: #{Stock.count}"
+#puts "stocks created: #{Stock.count}"
