@@ -1,4 +1,6 @@
 class CreateStocks < ActiveRecord::Migration[7.1]
+  #drop_table :stocks, if_exists: true 
+
   def change
     create_table :stocks do |t|
       t.string :symbol
