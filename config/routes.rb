@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/update_stock', to: 'pages#update_stocks', as: 'updated_stocks'
   get '/userlist', to: 'users#userlist'
   get '/transactions', to: 'users#transactions'
+
+  resources :stocks
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

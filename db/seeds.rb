@@ -25,14 +25,14 @@ require 'csv'
 
 # Adjust the path to match your actual CSV file location
 csv_file = Rails.root.join('db', 'seeds', 'company_list.csv')
-
+Stock.destroy_all
 CSV.foreach(csv_file, headers: true) do |row|
-  next unless row['name'].present? && row['assetType'] == 'Stock' && row['Status'] == 'Active'
+  next unless row['name'].present? && row['assetType'] == 'Stock' && row['status'] == 'Active'
 
   Stock.create(
-    ticker: row['symbol'],
+    symbol: row['symbol'],
     company_name: row['name']
-    # Add other attributes as needed
   )
+  #puts "stock created: #{Stock.last.symbol}"
 end
-
+puts "stocks created: #{Stock.count}"
