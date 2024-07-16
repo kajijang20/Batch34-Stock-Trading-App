@@ -15,8 +15,8 @@
 
   <body>
     <%= yield %>
-    <% if user_signed_in? %>
-      <%= button_to "Sign Out", destroy_user_session_path, method: :delete  %>
-    <% end %>
+    <%# if user_signed_in? %>
+      <%#= button_to "Sign Out", destroy_user_session_path, method: :delete  %>
+    <%# end %>
   </body>
 </html>

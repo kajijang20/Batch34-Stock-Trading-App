@@ -72,11 +72,25 @@
     padding: 0 0 1rem 1rem;
 }
 
-.Header-login {
+.Header-login, .Header-logout {
     display: flex;
-    flex: 1;
     justify-content: flex-end;
-    margin: 0 2rem;
+    font-size: 0.8rem;
+    margin: -0.4rem 2rem 0 5.5rem;
+}
+
+.Header-login, .Header-logout button  {
+    background-color: rgba(40, 40, 40, 1);
+    color: white;
+    border-radius: 1rem;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.Header-logout button:hover, .Header-login:hover {
+    background-color: rgb(0, 77, 110);
 }
 
 #Dashboard-search-bar {
