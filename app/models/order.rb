@@ -4,6 +4,7 @@ class Order < ApplicationRecord
     validates :order_type, inclusion: { in: %w[BUY SELL] }
     validates :price, numericality: { greater_than: 0 }
     validates :quantity, numericality: { greater_than: 0 }, presence: true
+    
 
     validate do 
       if !user_balance_sufficient?

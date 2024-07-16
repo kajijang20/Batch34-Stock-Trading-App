@@ -16,25 +16,45 @@
 #     <li><%= order.symbol %> - <%= order.price %></li>
 #   <% end %>
 # </ul>
+<!-- app/views/pages/orders.html.erb -->
 
 <h1>Orders</h1>
 
-<h2>Stocks:</h2>
-<ul>
-  <% @stocks.each do |stock| %>
-    <li><%= stock.symbol %> - <%= stock.company_name %></li>
-  <% end %>
-</ul>
-
-<h2>Orders:</h2>
-<ul>
-  <% if @orders.present? %>
-    <% @orders.each do |order| %>
-      <li><%= order.symbol %> - <%= order.price %> - <%= order.quantity %> - <%= order.order_type %></li>
-    <% end %>
+<div>
+  <h2>Stocks:</h2>
+  <% if @stocks.any? %>
+    <ul>
+      <% @stocks.each do |stock| %>
+        <li>
+          <strong>Company:</strong> <%= stock.company_name %> 
+          <strong>Symbol:</strong> <%= stock.symbol %> 
+          <strong>Price:</strong> <%= stock.price %> 
+          <strong>Quantity:</strong> <%= stock.quantity %>
+        </li>
+      <% end %>
+    </ul>
   <% else %>
-    <li>No orders available</li>
+    <p>No stocks available</p>
   <% end %>
-</ul>
+</div>
+
+<div>
+  <h2>Orders:</h2>
+  <% if @orders.any? %>
+    <ul>
+      <% @orders.each do |order| %>
+        <li>
+          <strong>Order Type:</strong> <%= order.order_type %> 
+          <strong>Symbol:</strong> <%= order.symbol %> 
+          <strong>Price:</strong> <%= order.price %> 
+          <strong>Quantity:</strong> <%= order.quantity %>
+          <strong>Date:</strong> <%= order.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No orders available</p>
+  <% end %>
+</div>
 
 <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>

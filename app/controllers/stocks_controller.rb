@@ -128,19 +128,28 @@ class StocksController < ApplicationController
     @stocks.each do |stock|
       stock_data = @client.fetch_stock_data(stock.symbol)
       if stock_data
-        stock.update(
-          open: stock_data['open'],
-          high: stock_data['high'],
-          low: stock_data['low'],
-          close: stock_data['close'],
-          volume: stock_data['volume']
-        )
+        Rails.logger.info "Fetched data for #{stock.symbol}: #{stock_data.inspect}"
+        if stock_data['Meta Data']
+          stock.update(
+            open: stock_data['Time Series (Daily)'].values.first['1. open'],
+            high: stock_data['Time Series (Daily)'].values.first['2. high'],
+            low: stock_data['Time Series (Daily)'].values.first['3. low'],
+            close: stock_data['Time Series (Daily)'].values.first['4. close'],
+            volume: stock_data['Time Series (Daily)'].values.first['5. volume']
+          )
+        else
+          Rails.logger.error "Invalid data structure for #{stock.symbol}: #{stock_data.inspect}"
+        end
+      else
+        Rails.logger.error "Failed to fetch stock data for #{stock.symbol}"
       end
     end
     redirect_to root_path, notice: "Stocks updated successfully."
   rescue StandardError => e
+    Rails.logger.error "Exception: #{e.message}"
     redirect_to root_path, alert: "Failed to update stocks: #{e.message}"
   end
+  
 
   private
 
