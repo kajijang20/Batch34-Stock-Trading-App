@@ -50,6 +50,14 @@
     margin-right: 10px;
 }
 
+.Header-user {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    margin: 0 2rem;
+    font-size: 0.8rem;
+}
+
 #Header a {
     color: white;
     text-decoration: none;
@@ -62,6 +70,13 @@
     flex-direction: row;
     column-gap: 1.5rem;
     padding: 0 0 1rem 1rem;
+}
+
+.Header-login {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    margin: 0 2rem;
 }
 
 #Dashboard-search-bar {

@@ -4,11 +4,14 @@ module StockImport
   
     def initialize(stock)
       @stock = stock
-      @stock_timeseries = fetch_stock_data(stock.symbol)
-      #@stock_timeseries = Alphavantage::Stock.new(
-      #  symbol: stock.ticker,
-      #  key: ENV['ALPHAVANTAGE_API_KEY']
-      #).quote
+      if (alpha_vantage == nil)
+        alpha_vantage = Alphavantage::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
+        alpha_vantage.verbose = true
+      end
+      @stock_timeseries = Alphavantage::Stock.new(
+        symbol: stock.ticker,
+        key: ENV['ALPHAVANTAGE_API_KEY']
+      ).quote
     end
   
     def call
@@ -25,24 +28,22 @@ module StockImport
       )
     end
 
-    private
+#    private
 
-    def fetch_stock_data(symbol)
-      alpha_vantage = Alphavantage::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
-      alpha_vantage.verbose = true
+#    def fetch_stock_data(symbol)
+#      alpha_vantage = Alphavantage::Client.new(key: ENV['ALPHAVANTAGE_API_KEY'])
+#      alpha_vantage.verbose = true
 
-      begin
-        data = alpha_vantage.stock(symbol: symbol).quote
-        return data if data.present?
-
-        puts "Failed to fetch data for #{symbol} from AlphaVantage"
-        return nil
-      rescue Alphavantage::Error => e
-        puts "AlphaVantage API error: #{e.message}"
-        return nil
-      end
-    end
-
+#      begin
+#        data = alpha_vantage.stock(symbol: symbol).quote
+#        return data if data.present?
+#        puts "Failed to fetch data for #{symbol} from AlphaVantage"
+#        return nil
+#      rescue Alphavantage::Error => e
+#        puts "AlphaVantage API error: #{e.message}"
+#        return nil
+#      end
+#    end
   end
 end
   
