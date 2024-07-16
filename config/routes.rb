@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   root 'pages#home'
   
   get '/' => 'pages#home'
-  get '/search', to: 'pages#search'
+  #get '/search', to: 'pages#search'
+  get '/stocks/search', to: 'stocks#search', as: :stock_search
   
   get '/orders' => 'pages#orders'
   get '/update_stock', to: 'pages#update_stocks', as: 'updated_stocks'

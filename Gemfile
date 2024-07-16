@@ -50,6 +50,7 @@ gem 'rspec-rails', '~> 4.0', '>= 4.0.1'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem "alphavantagerb"  
 end
 
 group :development do
@@ -71,7 +72,7 @@ end
 
 gem "devise", "~> 4.9"
 
-gem "alphavantagerb"
+#gem "alphavantagerb"
 
 gem "rolify"
 

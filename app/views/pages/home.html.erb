@@ -3,53 +3,89 @@
     <div class="Header-logo">
       <%= image_tag("logo.png", alt: "Logo", class: "logo") %>
       <h1> Dashboard </h1>
+      <% if current_user %>
+        <span class="Header-user">
+          <%= current_user.email %>
+        </span>
+      <% end %>
     </div>
     <div class="Header-routes">
       <%= link_to "Orders", orders_path %>
       <%= link_to "Update Stocks", updated_stocks_path %>
       <%= link_to "User List", userlist_path %>
       <%= link_to "Transactions", transactions_path %>
-      <%= link_to "Sign-in", new_user_session_path %>
+      
+      <% if user_signed_in? %>
+        <span class="Header-logout">
+          <%= button_to "Sign Out", destroy_user_session_path, method: :delete  %>
+        </span>
+      <% else %>
+        <span class="Header-login">
+          <%= link_to "Sign-in", new_user_session_path %>
+        </span>
+        <% end %>
+      
     </div>
   </div>
 
+  <div id="Dashboard-search-bar">
+    <%= form_tag(stock_search_path, method: :get, id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input" %>
+      <%= submit_tag "Search", id: "search-submit" %>
+    <% end %>
+    <div id="Dashboard-search-results" class="search-results">
+      <% if @search_results.any? %>
+        <ul>
+          <% @search_results.each do |stock| %>
+            <li>
+              <%= stock.company_name %> (<%= stock.symbol %>) - <%= stock.open %>, <%= stock.close %>, <%= stock.high %>, <%= stock.low %>, <%= stock.volume %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No results found.</p>
+      <% end %>
+    </div>
+  </div>
+<!--
   <div id="Dashboard-search-bar">
     <%= form_tag(root_path, method: :get, id: "search-form") do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input" %>
       <%= submit_tag "Search", id: "search-submit" %>
     <% end %>
     <div id="Dashboard-search-results" class="search-results"></div>
-  </div>
-  
+  </div> -->
+  <!-- 
   <div id="Dashboard-stocks">
-  <table>
-    <thead>
-      <tr>
-        <th>Company Name</th>
-        <th>Symbol</th>
-        <th>High</th>
-        <th>Low</th>
-        <th>Close</th>
-        <th>Volume</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-  
-    <tbody>
-      <% @stocks.each do |stock| %>
+    <table>
+      <thead>
         <tr>
-          <td><%= stock.company_name %></td>
-          <td><%= stock.symbol %></td>
-          <td><%= stock.high %></td>
-          <td><%= stock.low %></td>
-          <td><%= stock.close %></td>
-          <td><%= stock.volume %></td>
-          <td><%= link_to 'Show', stock %></td>
-          <%# <td><%= link_to 'Edit', edit_stock_path(stock) ></td>
-          <%# <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } ></td> %>
+          <th>Company Name</th>
+          <th>Symbol</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+          <th>Volume</th>
+          <th colspan="3"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  
+      </thead>
+    
+      <tbody>
+        <% @stocks.each do |stock| %>
+          <tr>
+            <td><%= stock.company_name %></td>
+            <td><%= stock.symbol %></td>
+            <td><%= stock.high %></td>
+            <td><%= stock.low %></td>
+            <td><%= stock.close %></td>
+            <td><%= stock.volume %></td>
+            <td><%= link_to 'Show', stock %></td>
+            <%# <td><%= link_to 'Edit', edit_stock_path(stock) ></td>
+            <%# <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } ></td> %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  -->
 </div>
