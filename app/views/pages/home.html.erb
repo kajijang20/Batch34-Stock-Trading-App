@@ -10,34 +10,34 @@
       <% end %>
     </div>
     <div class="Header-routes">
-      <%= link_to "Orders", orders_path %>
-      <%= link_to "Update Stocks", updated_stocks_path %>
-      <%= link_to "User List", userlist_path %>
-      <%= link_to "Transactions", transactions_path %>
-      
+      <div class="Header-routes-links">
+        <%= link_to "Orders", orders_path %>
+        <%= link_to "Update Stocks", updated_stocks_path %>
+        <%= link_to "User List", userlist_path %>
+        <%= link_to "Transactions", transactions_path %>
+      </div>
       <% if user_signed_in? %>
-        <span class="Header-logout">
+        <span class="Header-routes-logout">
           <%= button_to "Sign Out", destroy_user_session_path, method: :delete  %>
         </span>
       <% else %>
-        <span class="Header-login">
+        <span class="Header-routes-login">
           <%= link_to "Sign-in", new_user_session_path %>
         </span>
-        <% end %>
-      
+      <% end %>
     </div>
   </div>
-
+<!--
   <div id="Dashboard-search-bar">
     <%= form_tag(stock_search_path, method: :get, id: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input" %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input, autocomplete: off" %>
       <%= submit_tag "Search", id: "search-submit" %>
     <% end %>
     <div id="Dashboard-search-results" class="search-results">
       <% if @search_results.any? %>
         <ul>
           <% @search_results.each do |stock| %>
-            <li>
+            <li data-symbol="<%= stock.symbol %>">
               <%= stock.company_name %> (<%= stock.symbol %>) - <%= stock.open %>, <%= stock.close %>, <%= stock.high %>, <%= stock.low %>, <%= stock.volume %>
             </li>
           <% end %>
@@ -47,14 +47,15 @@
       <% end %>
     </div>
   </div>
-<!--
+  -->
+
   <div id="Dashboard-search-bar">
-    <%= form_tag(root_path, method: :get, id: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input" %>
+    <%= form_tag(stock_search_path, method: :get, id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search by Company Name", id: "search-input", autocomplete: "off" %>
       <%= submit_tag "Search", id: "search-submit" %>
     <% end %>
     <div id="Dashboard-search-results" class="search-results"></div>
-  </div> -->
+  </div>
   <!-- 
   <div id="Dashboard-stocks">
     <table>
